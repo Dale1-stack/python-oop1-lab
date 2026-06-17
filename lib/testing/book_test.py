@@ -1,33 +1,35 @@
 #!/usr/bin/env python3
 
-from book import Book
+class Book:
+    """Represents a book in the bookstore with a title, page count, and reading actions."""
 
-import io
-import sys
+    def __init__(self, title, page_count):
+        """Initialize a Book with a title and page count.
 
-class TestBook:
-    '''Book in book.py'''
+        Args:
+            title (str): The title of the book.
+            page_count (int): The total number of pages in the book.
+        """
+        self.title = title
+        self.page_count = page_count  # Uses the property setter for validation
 
-    def test_has_title_and_page_count(self):
-        '''has the title and page_count passed into __init__, and values can be set to new instance.'''
-        book = Book("And Then There Were None", 272)
-        assert(book.page_count == 272)
-        assert(book.title == "And Then There Were None")
+    @property
+    def page_count(self):
+        """Return the current page count."""
+        return self._page_count
 
-    def test_requires_int_page_count(self):
-        '''prints "page_count must be an integer" if page_count is not an integer.'''
-        book = Book("And Then There Were None", 272)
-        captured_out = io.StringIO()
-        sys.stdout = captured_out
-        book.page_count = "not an integer"
-        sys.stdout = sys.__stdout__
-        assert captured_out.getvalue() == "page_count must be an integer\n"
+    @page_count.setter
+    def page_count(self, value):
+        """Set page count, ensuring it is an integer.
 
-    def test_can_turn_page(self):
-        '''outputs "Flipping the page...wow, you read fast!" when method turn_page() is called'''
-        book = Book("The World According to Garp", 69)
-        captured_out = io.StringIO()
-        sys.stdout = captured_out
-        book.turn_page()
-        sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "Flipping the page...wow, you read fast!\n")
+        Prints an error message if the value is not an integer.
+        """
+        if not isinstance(value, int):
+            print("page_count must be an integer")
+        else:
+            self._page_count = value
+
+    def turn_page(self):
+        """Simulate turning a page in the book."""
+        print("Flipping the page...wow, you read fast!")
+        

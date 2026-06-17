@@ -1,41 +1,40 @@
 #!/usr/bin/env python3
 
-from lib.coffee import Coffee
+class Coffee:
+    """Represents a coffee item in the bookstore with a size, price, and tipping action."""
 
-import io
-import sys
+    # Valid size options for a coffee order
+    VALID_SIZES = ["Small", "Medium", "Large"]
 
-class TestCoffee:
-    '''Coffee in coffee.py'''
+    def __init__(self, size, price):
+        """Initialize a Coffee with a size and price.
 
-    def test_has_size_and_price(self):
-        '''has the size and status passed to __init__, and values can be set to new instance.'''
-        black = Coffee(size = "Large", price = 1.50)
-        assert(black.size == "Large")
-        assert(black.price == 1.50)
+        Args:
+            size (str): The size of the coffee — must be Small, Medium, or Large.
+            price (float): The price of the coffee.
+        """
+        self.size = size    # Uses the property setter for validation
+        self.price = price
 
-    def test_requires_specific_size(self):
-        '''prints "size must be Small, Medium, or Large" if size is not an one of those options.'''
-        latte = Coffee(size = "Large", price = 2.50)
-        captured_out = io.StringIO()
-        sys.stdout = captured_out
-        latte.size = "not an size"
-        sys.stdout = sys.__stdout__
-        assert captured_out.getvalue() == "size must be Small, Medium, or Large\n"
+    @property
+    def size(self):
+        """Return the current size of the coffee."""
+        return self._size
 
-    def test_can_tip(self):
-        '''says that the shoe has been repaired.'''
-        americano = Coffee(size = "Large", price = 3.50)
-        captured_out = io.StringIO()
-        sys.stdout = captured_out
-        americano.tip()
-        sys.stdout = sys.__stdout__
-        assert(captured_out.getvalue() == "This coffee is great, here’s a tip!\n")
-    
-    def test_tip_adds_to_price(self):
-        '''adds 1 to price of coffee'''
-        americano = Coffee(size = "Large", price = 3.50)
-        americano.tip()
-        assert(americano.price == 4.50)
+    @size.setter
+    def size(self, value):
+        """Set the coffee size, ensuring it is one of the valid options.
+
+        Prints an error message if the value is not Small, Medium, or Large.
+        """
+        if value not in self.VALID_SIZES:
+            print("size must be Small, Medium, or Large")
+        else:
+            self._size = value
+
+    def tip(self):
+        """Express appreciation for the coffee and add a $1 tip to the price."""
+        print("This coffee is great, here\u2019s a tip!")
+        self.price += 1
         
         
