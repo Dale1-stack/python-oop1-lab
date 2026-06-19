@@ -1,10 +1,14 @@
 !/usr/bin/env python3
 
 class Coffee:
+    """Represents a coffee sold by the bookstore."""
+
+    VALID_SIZES = ("Small", "Medium", "Large")
+
     def __init__(self, size, price):
-        # Triggers the setter validation
+        # Size is validated by its property setter; price is stored directly.
         self.size = size
-        self.price = float(price)
+        self.price = price
 
     @property
     def size(self):
@@ -12,14 +16,13 @@ class Coffee:
 
     @size.setter
     def size(self, value):
-        valid_sizes = ["Small", "Medium", "Large"]
-        # Standardize case to handle minor user typos if needed, or check directly
-        if value not in valid_sizes:
-            print("size must be Small, Medium, or Large")
-            self._size = "Medium"  # Fallback default assignment
-        else:
+        # Only accept one of the three menu sizes.
+        if value in Coffee.VALID_SIZES:
             self._size = value
+        else:
+            print("size must be Small, Medium, or Large")
 
     def tip(self):
+        """Thank the customer and add a $1 tip to the price."""
         print("This coffee is great, here’s a tip!")
         self.price += 1
