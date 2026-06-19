@@ -3,22 +3,23 @@
 class Book:
     """Represents an online book that a user can read in the bookstore."""
 
-    def __init__(self, title, page_count):
-        # Title is stored directly; page_count is validated by its property setter.
+    def __init__(self, title: str, page_count: int):
         self.title = title
-        self.page_count = page_count
+        # Triggers the setter validation immediately
+        self.page_count = page_count 
 
     @property
-    def page_count(self):
+    def page_count(self) -> int:
         return self._page_count
 
     @page_count.setter
     def page_count(self, value):
-        # Only accept whole-number page counts; reject anything else.
-        if isinstance(value, int):
+        # Strict validation for whole-number page counts
+        if isinstance(value, int) and not isinstance(value, bool):
             self._page_count = value
         else:
             print("page_count must be an integer")
+            raise ValueError("page_count must be an integer")
 
     def turn_page(self):
         """Simulate the reader flipping to the next page."""

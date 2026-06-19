@@ -5,22 +5,23 @@ class Coffee:
 
     VALID_SIZES = ("Small", "Medium", "Large")
 
-    def __init__(self, size, price):
-        # Size is validated by its property setter; price is stored directly.
+    def __init__(self, size: str, price: float):
+        # Triggers the setter validation immediately
         self.size = size
         self.price = price
 
     @property
-    def size(self):
+    def size(self) -> str:
         return self._size
 
     @size.setter
     def size(self, value):
-        # Only accept one of the three menu sizes.
+        # Strict validation against allowed sizes
         if value in Coffee.VALID_SIZES:
             self._size = value
         else:
             print("size must be Small, Medium, or Large")
+            raise ValueError("size must be Small, Medium, or Large")
 
     def tip(self):
         """Thank the customer and add a $1 tip to the price."""
